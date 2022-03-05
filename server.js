@@ -24,8 +24,8 @@ const Band = db.define("band", {
   },
 });
 
-Guitarist.belongsTo.Band;
-Band.hasMany.Guitarist;
+Guitarist.belongsTo(Band);
+Band.hasMany(Guitarist);
 
 const init = async () => {
   await db.sync({ force: true });
@@ -53,6 +53,22 @@ const init = async () => {
     Band.create({ name: "Led Zeppelin" }),
     Band.create({ name: "The Beatles" }),
     Band.create({ name: "The Eagles" }),
+  ]);
+  joeP.bandId = aerosmith.id;
+  bradW.bandId = aerosmith.id;
+  jimmyP.bandId = ledZeppelin.id;
+  paulM.bandId = beatles.id;
+  johnL.bandId = beatles.id;
+  joeW.bandId = eagles.id;
+  glennF.bandId = eagles.id;
+  await Promise.all([
+    joeP.save(),
+    bradW.save(),
+    jimmyP.save(),
+    paulM.save(),
+    johnL.save(),
+    joeW.save(),
+    glennF.save(),
   ]);
 };
 
