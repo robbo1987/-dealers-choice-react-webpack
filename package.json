@@ -15,6 +15,7 @@
   "dependencies": {
     "build": "^0.1.4",
     "express": "^4.17.3",
+    "faker": "^5.5.3",
     "pg": "^8.7.3",
     "sequelize": "^6.17.0"
   },
