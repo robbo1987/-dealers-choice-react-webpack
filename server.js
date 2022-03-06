@@ -30,7 +30,7 @@ const Guitarist = db.define(
   }
 );
 
-//ADD a random generator to generate guitarist "name"
+
 
 
 const Band = db.define("band", {
@@ -43,6 +43,7 @@ const Band = db.define("band", {
   },
 });
 
+//ADD a random generator to generate guitarist "name"
 Band.generateRandom = function() {
   return this.create({name: `Band Name: ${Math.random() *200}`})
 }
@@ -55,6 +56,10 @@ Band.hasMany(Guitarist);
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
+const path = require('path')
+
+app.use('/dist', express.static(path.join(__dirname, "dist")))
+app.get('/', (req,res) => res.sendFile(path.join(__dirname,'index.html')))
 
 app.get("/api/guitarists", async (req, res, next) => {
   try {
@@ -67,7 +72,19 @@ app.get("/api/guitarists", async (req, res, next) => {
   }
 });
 
-app.post('/api/guitarists', async(req,res,next) => {
+
+
+app.get('/api/bands', async (req,res,next) => {
+  try{
+      const bands = await Band.findAll()
+      res.send(bands)
+  }
+  catch(ex){
+      next(ex)
+  }
+})
+//post route- tested with curl//
+app.post('/api/bands', async(req,res,next) => {
   try{
       res.status(201).send(await Band.generateRandom())
   }
