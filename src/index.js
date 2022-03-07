@@ -9,6 +9,7 @@ class App extends React.Component {
       bands: [],
       guitarists: [],
     };
+    this.create = this.create.bind(this)
   }
   async componentDidMount() {
     const bandResponse = await axios.get("/api/bands");
@@ -17,10 +18,13 @@ class App extends React.Component {
       bands: bandResponse.data,
       guitarists: guitaristResponse.data,
     });
-    console.log(guitaristResponse);
+    
   }
-  create() {
-    console.log("create");
+  async create() {
+    const response = await axios.post("/api/bands");
+    const newBand = response.data;
+    const bands = [...this.state.bands, newBand];
+    this.setState({bands})
   }
 
   render() {

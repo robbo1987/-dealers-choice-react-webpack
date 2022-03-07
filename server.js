@@ -42,7 +42,7 @@ const Band = db.define("band", {
 
 //ADD a random generator to generate guitarist "name"
 Band.generateRandom = function () {
-  return this.create({ name: `Band Name: ${Math.random() * 200}` });
+  return this.create({ name: `Band Name: ${(Math.floor(Math.random() * 200))}` });
 };
 
 Guitarist.belongsTo(Band);
