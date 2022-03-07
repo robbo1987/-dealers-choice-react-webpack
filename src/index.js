@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
+import BodyHTML from "../public/BodyHTML.js"
 
 class App extends React.Component {
   constructor() {
@@ -9,7 +10,7 @@ class App extends React.Component {
       bands: [],
       guitarists: [],
     };
-    this.create = this.create.bind(this)
+    this.create = this.create.bind(this);
   }
   async componentDidMount() {
     const bandResponse = await axios.get("/api/bands");
@@ -18,44 +19,22 @@ class App extends React.Component {
       bands: bandResponse.data,
       guitarists: guitaristResponse.data,
     });
-    
   }
   async create() {
     const response = await axios.post("/api/bands");
     const newBand = response.data;
     const bands = [...this.state.bands, newBand];
-    this.setState({bands})
+    this.setState({ bands });
+  }
+
+  destroy(band) {
+    console.log(band);
   }
 
   render() {
-    const bands = this.state.bands;
-    const guitarists = this.state.guitarists;
     return (
       <div id="body">
-        <h1>Robby's Guitar List</h1>
-        <h2>Lets Start with a List of Some Cool Guitarists!</h2>
-        <ul>
-          {guitarists.map((guitarist) => (
-            <li key={guitarist.id}> {guitarist.name} </li>
-          ))}
-        </ul>
-        <h2> Can YOU Guess what bands these guitarists come from??</h2>
-        <h2> Lets Start With a List of the BANDS!</h2>
-        <ul>
-          {bands.map((band) => (
-            <li key={band.id}> {band.name}</li>
-          ))}
-        </ul>
-        <h2> Maybe the above List Helped?</h2>
-        <h2>Here are the Answers:</h2>
-        <ul>
-          {guitarists.map((guitarist) => (
-            <li key={guitarist.id}>
-              {guitarist.name} --- {guitarist.band.name}
-            </li>
-          ))}
-        </ul>
-        <h2>Let's Add Some Bands</h2>
+        <BodyHTML guitarists={this.state.guitarists} bands={this.state.bands} />
         <button onClick={this.create}> Create Band</button>
       </div>
     );
@@ -63,6 +42,8 @@ class App extends React.Component {
 }
 ReactDOM.render(<App />, document.querySelector("#root"));
 
+//having issues with destory
 //add some pictures?
 //separate out files
 // deployed https://robs-guitar-app.herokuapp.com/
+//need to work on delete
