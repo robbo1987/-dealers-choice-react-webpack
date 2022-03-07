@@ -22,16 +22,13 @@ const Guitarist = db.define(
     hooks: {
       beforeCreate: function (guitarist) {
         if (!guitarist.bio) {
-          const name = guitarist.name
+          const name = guitarist.name;
           guitarist.bio = `${name} faker isnt working so this is just a made bio for now. Long live ${name}!!!!`;
         }
       },
     },
   }
 );
-
-
-
 
 const Band = db.define("band", {
   name: {
@@ -44,9 +41,9 @@ const Band = db.define("band", {
 });
 
 //ADD a random generator to generate guitarist "name"
-Band.generateRandom = function() {
-  return this.create({name: `Band Name: ${Math.random() *200}`})
-}
+Band.generateRandom = function () {
+  return this.create({ name: `Band Name: ${Math.random() * 200}` });
+};
 
 Guitarist.belongsTo(Band);
 Band.hasMany(Guitarist);
@@ -56,10 +53,10 @@ Band.hasMany(Guitarist);
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
-const path = require('path')
+const path = require("path");
 
-app.use('/dist', express.static(path.join(__dirname, "dist")))
-app.get('/', (req,res) => res.sendFile(path.join(__dirname,'index.html')))
+app.use("/dist", express.static(path.join(__dirname, "dist")));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 app.get("/api/guitarists", async (req, res, next) => {
   try {
@@ -72,26 +69,22 @@ app.get("/api/guitarists", async (req, res, next) => {
   }
 });
 
-
-
-app.get('/api/bands', async (req,res,next) => {
-  try{
-      const bands = await Band.findAll()
-      res.send(bands)
+app.get("/api/bands", async (req, res, next) => {
+  try {
+    const bands = await Band.findAll();
+    res.send(bands);
+  } catch (ex) {
+    next(ex);
   }
-  catch(ex){
-      next(ex)
-  }
-})
+});
 //post route- tested with curl//
-app.post('/api/bands', async(req,res,next) => {
-  try{
-      res.status(201).send(await Band.generateRandom())
+app.post("/api/bands", async (req, res, next) => {
+  try {
+    res.status(201).send(await Band.generateRandom());
+  } catch (ex) {
+    next(ex);
   }
-  catch(ex) {
-    next(ex)
-  }
-})
+});
 
 const init = async () => {
   try {
@@ -104,10 +97,12 @@ const init = async () => {
       johnL,
       joeW,
       glennF,
+      vanHalen,
       aerosmith,
       ledZeppelin,
       beatles,
       eagles,
+      vanHalenBand,
     ] = await Promise.all([
       Guitarist.create({ name: "Joe Perry" }),
       Guitarist.create({ name: "Brad Whitford" }),
@@ -116,10 +111,12 @@ const init = async () => {
       Guitarist.create({ name: "John Lennon" }),
       Guitarist.create({ name: "Joe Walsh" }),
       Guitarist.create({ name: "Glenn Frey" }),
-      Band.create({ name: "Aeorsmith" }),
+      Guitarist.create({ name: "Eddie Van Halen" }),
+      Band.create({ name: "Aerosmith" }),
       Band.create({ name: "Led Zeppelin" }),
       Band.create({ name: "The Beatles" }),
       Band.create({ name: "The Eagles" }),
+      Band.create({ name: "Van Halen" }),
     ]);
     joeP.bandId = aerosmith.id;
     bradW.bandId = aerosmith.id;
@@ -128,6 +125,7 @@ const init = async () => {
     johnL.bandId = beatles.id;
     joeW.bandId = eagles.id;
     glennF.bandId = eagles.id;
+    vanHalen.bandId = vanHalenBand.id;
     await Promise.all([
       joeP.save(),
       bradW.save(),
@@ -136,6 +134,7 @@ const init = async () => {
       johnL.save(),
       joeW.save(),
       glennF.save(),
+      vanHalen.save()
     ]);
     app.listen(port, () => {
       console.log(`listening on port ${port}`);
