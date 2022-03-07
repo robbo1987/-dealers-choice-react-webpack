@@ -1,53 +1,8 @@
+const db = require('./db')
+const { Guitarist, Band } = db
+const sequelize = db.sequelize
+
 //data layer
-const Sequelize = require("sequelize");
-const db = new Sequelize(
-  process.env.DATABASE_URL || "postgres://localhost/react_webpack_db"
-);
-
-const { STRING, TEXT } = Sequelize.DataTypes;
-
-const Guitarist = db.define(
-  "guitarist",
-  {
-    name: {
-      type: STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    bio: TEXT,
-  },
-  {
-    hooks: {
-      beforeCreate: function (guitarist) {
-        if (!guitarist.bio) {
-          const name = guitarist.name;
-          guitarist.bio = `${name} faker isnt working so this is just a made bio for now. Long live ${name}!!!!`;
-        }
-      },
-    },
-  }
-);
-
-const Band = db.define("band", {
-  name: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-});
-
-//ADD a random generator to generate guitarist "name"
-Band.generateRandom = function () {
-  return this.create({ name: `Band Name: ${(Math.floor(Math.random() * 200))}` });
-};
-
-Guitarist.belongsTo(Band);
-Band.hasMany(Guitarist);
-
 //express
 
 const express = require("express");
@@ -89,7 +44,7 @@ app.post("/api/bands", async (req, res, next) => {
 
 const init = async () => {
   try {
-    await db.sync({ force: true });
+    await sequelize.sync({ force: true });
     const [
       joeP,
       bradW,

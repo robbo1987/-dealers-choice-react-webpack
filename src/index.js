@@ -63,5 +63,6 @@ class App extends React.Component {
 }
 ReactDOM.render(<App />, document.querySelector("#root"));
 
-//add some pictures? add a POST option//
+//add some pictures?
 //separate out files
+// deployed https://robs-guitar-app.herokuapp.com/
