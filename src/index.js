@@ -19,38 +19,40 @@ class App extends React.Component {
     });
     console.log(guitaristResponse);
   }
+  create() {
+    console.log("create");
+  }
 
   render() {
     const bands = this.state.bands;
     const guitarists = this.state.guitarists;
     return (
-      <div>
-        <div id="body">
-          <h1>Robby's Guitar List</h1>
-          <h2>Lets Start with a List of Some Cool Guitarists!</h2>
-          <ul>
-            {guitarists.map((guitarist) => (
-              <li key={guitarist.id}> {guitarist.name} </li>
-            ))}
-          </ul>
-          <h2> Can YOU Guess what bands these guitarists come from??</h2>
-          <h2> Lets Start With a List of the BANDS!</h2>
-          <ul>
-            {bands.map((band) => (
-              <li key={band.id}> {band.name}</li>
-            ))}
-          </ul>
-          <h2> Maybe the above List Helped?</h2>
-          <h2>Here are the Answers:</h2>
-          <ul>
-            {guitarists.map((guitarist) => (
-              <li>
-                {" "}
-                {guitarist.name} --- {guitarist.band.name}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div id="body">
+        <h1>Robby's Guitar List</h1>
+        <h2>Lets Start with a List of Some Cool Guitarists!</h2>
+        <ul>
+          {guitarists.map((guitarist) => (
+            <li key={guitarist.id}> {guitarist.name} </li>
+          ))}
+        </ul>
+        <h2> Can YOU Guess what bands these guitarists come from??</h2>
+        <h2> Lets Start With a List of the BANDS!</h2>
+        <ul>
+          {bands.map((band) => (
+            <li key={band.id}> {band.name}</li>
+          ))}
+        </ul>
+        <h2> Maybe the above List Helped?</h2>
+        <h2>Here are the Answers:</h2>
+        <ul>
+          {guitarists.map((guitarist) => (
+            <li key={guitarist.id}>
+              {guitarist.name} --- {guitarist.band.name}
+            </li>
+          ))}
+        </ul>
+        <h2>Let's Add Some Bands</h2>
+        <button onClick={this.create}> Create Band</button>
       </div>
     );
   }
@@ -58,4 +60,4 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.querySelector("#root"));
 
 //add some pictures? add a POST option//
-//get css to work//
+//separate out files
