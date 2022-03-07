@@ -44,6 +44,11 @@ Band.generateRandom = function () {
   return this.create({ name: `Band Name: ${(Math.floor(Math.random() * 200))}` });
 };
 
+//below class method is only for test spec purposes//
+Guitarist.generateName = function () {
+  return this.create({ name: ` Guitarist Name: ${(Math.floor(Math.random() * 200))}` });
+};
+
 Guitarist.belongsTo(Band);
 Band.hasMany(Guitarist);
 
