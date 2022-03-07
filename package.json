@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha spec.js",
+    "test:dev": "mocha spec.js --watch",
     "start:dev": "nodemon server --ignore src/ --ignore dist/ & npm run build:dev",
     "build": "webpack",
     "build:dev": "webpack --watch --mode=development"
@@ -23,6 +24,8 @@
   "devDependencies": {
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.3",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1",
     "nodemon": "^2.0.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
