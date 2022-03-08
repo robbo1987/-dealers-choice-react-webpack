@@ -42,6 +42,19 @@ app.post("/api/bands", async (req, res, next) => {
   }
 });
 
+app.delete('/api/bands/:id', async(req,res,next) => {
+  try{
+      const band = await Band.findByPk(req.params.id);
+      await band.destroy()
+      res.sendStatus(204)
+  }
+  catch(ex){
+      next(ex)
+  }
+})
+
+app.delete
+
 const init = async () => {
   try {
     await sequelize.sync({ force: true });

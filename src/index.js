@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import BodyHTML from "../public/BodyHTML.js"
+import BodyHTML from "../public/BodyHTML.js";
 
 class App extends React.Component {
   constructor() {
@@ -27,8 +27,10 @@ class App extends React.Component {
     this.setState({ bands });
   }
 
-  destroy(band) {
-    console.log(band);
+  async destroy(band) {
+    await axios.delete(`/api/bands/${band.id}`);
+    const bands = this.state.bands.filter((_band) => _band.id !== band.id);
+    this.setState({ bands });
   }
 
   render() {
@@ -36,6 +38,21 @@ class App extends React.Component {
       <div id="body">
         <BodyHTML guitarists={this.state.guitarists} bands={this.state.bands} />
         <button onClick={this.create}> Create Band</button>
+        <h2>Now Let's Remove Some Bands</h2>
+        <ul>
+          {this.state.bands.map((band) => {
+            return (
+              <li key={band.id}>
+                
+                {band.name}
+                <button onClick={() => this.destroy(band)}>
+                  
+                  Remove Band
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   }
